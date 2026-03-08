@@ -24,15 +24,46 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ListingsProvider()),
       ],
-      child: MaterialApp(
-        title: 'Kigali Directory',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00A86B)),
-          useMaterial3: true,
+      return MaterialApp(
+  title: 'Kigali Directory',
+  debugShowCheckedModeBanner: false,
+  theme: ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xFF00A86B),
+      primary: const Color(0xFF00A86B),
+    ),
+    useMaterial3: true,
+    fontFamily: 'Roboto',
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Color(0xFF00A86B),
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: Color(0xFF00A86B),
+      foregroundColor: Colors.white,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF00A86B),
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
-        home: const AuthGate(),
       ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderSide: BorderSide(color: Color(0xFF00A86B), width: 2),
+      ),
+    ),
+  ),
+  home: const AuthGate(),
+);
     );
   }
 }
