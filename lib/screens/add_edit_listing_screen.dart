@@ -160,7 +160,7 @@ class _AddEditListingScreenState extends State<AddEditListingScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
             const Text(
-              'Tip: Find coordinates on Google Maps by long-pressing a location.',
+              'Tip: Open Google Maps → long-press any location → tap the coordinates shown at the bottom to copy them.',
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
             const SizedBox(height: 8),
