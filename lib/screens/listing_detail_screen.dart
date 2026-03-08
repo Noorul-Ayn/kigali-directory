@@ -27,32 +27,27 @@ class ListingDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Embedded Map
-            SizedBox(
+            // Map Placeholder
+            Container(
               height: 250,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(listing.latitude, listing.longitude),
-                  zoom: 15,
+              color: Colors.grey[200],
+              child: const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.map_outlined, size: 48, color: Colors.grey),
+                    SizedBox(height: 8),
+                    Text('Map preview coming soon',
+                        style: TextStyle(color: Colors.grey)),
+                  ],
                 ),
-                markers: {
-                  Marker(
-                    markerId: MarkerId(listing.id ?? listing.name),
-                    position: LatLng(listing.latitude, listing.longitude),
-                    infoWindow: InfoWindow(title: listing.name),
-                  ),
-                },
-                zoomControlsEnabled: false,
-                myLocationButtonEnabled: false,
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Name & Category
                   Text(listing.name,
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold)),
@@ -65,8 +60,6 @@ class ListingDetailScreen extends StatelessWidget {
                         const TextStyle(color: Color(0xFF00A86B)),
                   ),
                   const SizedBox(height: 16),
-
-                  // Info Rows
                   _infoRow(Icons.location_on_outlined, listing.address),
                   const SizedBox(height: 12),
                   _infoRow(Icons.phone_outlined, listing.contactNumber),
@@ -78,8 +71,6 @@ class ListingDetailScreen extends StatelessWidget {
                     '${listing.latitude.toStringAsFixed(4)}, ${listing.longitude.toStringAsFixed(4)}',
                   ),
                   const SizedBox(height: 24),
-
-                  // Directions Button
                   SizedBox(
                     width: double.infinity,
                     height: 48,
