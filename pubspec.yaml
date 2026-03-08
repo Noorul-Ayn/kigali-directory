@@ -1,0 +1,36 @@
+name: kigali_directory
+description: Kigali City Services & Places Directory
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '^3.11.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^3.3.0
+  firebase_auth: ^5.1.4
+  cloud_firestore: ^5.2.1
+
+  # State Management
+  provider: ^6.1.2
+
+  # Maps & Navigation
+  google_maps_flutter: ^2.9.0
+  geolocator: ^12.0.0
+  url_launcher: ^6.3.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
