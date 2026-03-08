@@ -50,37 +50,66 @@ class _AddEditListingScreenState extends State<AddEditListingScreen> {
   }
 
   Future<void> _save() async {
-    if (_nameController.text.isEmpty ||
-        _addressController.text.isEmpty ||
-        _latController.text.isEmpty ||
-        _lngController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all required fields')),
-      );
-      return;
-    }
-
-    final uid = context.read<AuthProvider>().user!.uid;
-    final provider = context.read<ListingsProvider>();
-
-    final listing = ListingModel(
-      id: widget.listing?.id,
-      name: _nameController.text.trim(),
-      category: _selectedCategory,
-      address: _addressController.text.trim(),
-      contactNumber: _contactController.text.trim(),
-      description: _descriptionController.text.trim(),
-      latitude: double.tryParse(_latController.text) ?? 0.0,
-      longitude: double.tryParse(_lngController.text) ?? 0.0,
-      createdBy: uid,
-      timestamp: widget.listing?.timestamp ?? DateTime.now(),
+  // Validate name
+  if (_nameController.text.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter a place or service name')),
     );
+    return;
+  }
+  // Validate address
+  if (_addressController.text.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter an address')),
+    );
+    return;
+  }
+  // Validate coordinates
+  if (_latController.text.trim().isEmpty || _lngController.text.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter latitude and longitude')),
+    );
+    return;
+  }
+  final lat = double.tryParse(_latController.text.trim());
+  final lng = double.tryParse(_lngController.text.trim());
+  if (lat == null || lng == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Coordinates must be valid numbers')),
+    );
+    return;
+  }
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter valid geographic coordinates')),
+    );
+    return;
+  }
 
-    if (_isEditing) {
-      await provider.updateListing(widget.listing!.id!, listing);
-    } else {
-      await provider.createListing(listing);
-    }
+  final uid = context.read<AuthProvider>().user!.uid;
+  final provider = context.read<ListingsProvider>();
+
+  final listing = ListingModel(
+    id: widget.listing?.id,
+    name: _nameController.text.trim(),
+    category: _selectedCategory,
+    address: _addressController.text.trim(),
+    contactNumber: _contactController.text.trim(),
+    description: _descriptionController.text.trim(),
+    latitude: lat,
+    longitude: lng,
+    createdBy: uid,
+    timestamp: widget.listing?.timestamp ?? DateTime.now(),
+  );
+
+  if (_isEditing) {
+    await provider.updateListing(widget.listing!.id!, listing);
+  } else {
+    await provider.createListing(listing);
+  }
+
+  if (mounted) Navigator.pop(context);
+}
 
     if (mounted) Navigator.pop(context);
   }
