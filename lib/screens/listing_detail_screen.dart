@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/listing_model.dart';
 
@@ -27,20 +28,23 @@ class ListingDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Map Placeholder
-            Container(
+            // Embedded Map
+            SizedBox(
               height: 250,
-              color: Colors.grey[200],
-              child: const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.map_outlined, size: 48, color: Colors.grey),
-                    SizedBox(height: 8),
-                    Text('Map preview coming soon',
-                        style: TextStyle(color: Colors.grey)),
-                  ],
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(listing.latitude, listing.longitude),
+                  zoom: 15,
                 ),
+                markers: {
+                  Marker(
+                    markerId: MarkerId(listing.id ?? listing.name),
+                    position: LatLng(listing.latitude, listing.longitude),
+                    infoWindow: InfoWindow(title: listing.name),
+                  ),
+                },
+                zoomControlsEnabled: false,
+                myLocationButtonEnabled: false,
               ),
             ),
             Padding(

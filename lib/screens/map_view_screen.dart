@@ -1,10 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import '../providers/listings_provider.dart';
+import '../models/listing_model.dart';
+import 'listing_detail_screen.dart';
 
-class MapViewScreen extends StatelessWidget {
+class MapViewScreen extends StatefulWidget {
   const MapViewScreen({super.key});
 
   @override
+  State<MapViewScreen> createState() => _MapViewScreenState();
+}
+
+class _MapViewScreenState extends State<MapViewScreen> {
+  GoogleMapController? _mapController;
+
+  static const LatLng _kigaliCenter = LatLng(-1.9441, 30.0619);
+
+  Set<Marker> _buildMarkers(List<ListingModel> listings) {
+    return listings.map((listing) {
+      return Marker(
+        markerId: MarkerId(listing.id ?? listing.name),
+        position: LatLng(listing.latitude, listing.longitude),
+        infoWindow: InfoWindow(
+          title: listing.name,
+          snippet: listing.category,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ListingDetailScreen(listing: listing),
+            ),
+          ),
+        ),
+      );
+    }).toSet();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final listings = context.watch<ListingsProvider>().allListings;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Map View',
@@ -12,19 +47,15 @@ class MapViewScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF00A86B),
         foregroundColor: Colors.white,
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.map_outlined, size: 80, color: Colors.grey),
-            SizedBox(height: 16),
-            Text('Map coming soon',
-                style: TextStyle(fontSize: 18, color: Colors.grey)),
-            SizedBox(height: 8),
-            Text('Google Maps API key required',
-                style: TextStyle(color: Colors.grey)),
-          ],
+      body: GoogleMap(
+        initialCameraPosition: const CameraPosition(
+          target: _kigaliCenter,
+          zoom: 13,
         ),
+        markers: _buildMarkers(listings),
+        onMapCreated: (controller) => _mapController = controller,
+        myLocationButtonEnabled: true,
+        zoomControlsEnabled: true,
       ),
     );
   }
