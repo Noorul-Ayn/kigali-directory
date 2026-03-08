@@ -95,8 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Notifications Section
           const Text('Notifications',
-              style:
-                  TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Card(
             shape: RoundedRectangleBorder(
@@ -114,8 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const Divider(height: 1),
                 SwitchListTile(
                   title: const Text('Location-based Notifications'),
-                  subtitle: const Text(
-                      'Get notified about nearby services'),
+                  subtitle: const Text('Get notified about nearby services'),
                   value: _locationNotifications,
                   activeColor: const Color(0xFF00A86B),
                   onChanged: _notificationsEnabled
@@ -130,8 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Account Section
           const Text('Account',
-              style:
-                  TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Card(
             shape: RoundedRectangleBorder(
@@ -141,6 +138,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: const Text('Sign Out',
                   style: TextStyle(color: Colors.red)),
               onTap: () => _confirmSignOut(context, auth),
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // App Version
+          Center(
+            child: Text(
+              'Kigali Directory v1.0.0\nBuilt with Flutter & Firebase',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
           ),
         ],
