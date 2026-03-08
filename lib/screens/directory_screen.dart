@@ -60,9 +60,13 @@ class DirectoryScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: listings.isEmpty
-                ? const Center(child: Text('No listings found.'))
-                : ListView.builder(
+  child: provider.isLoading
+      ? const Center(
+          child: CircularProgressIndicator(color: Color(0xFF00A86B)),
+        )
+      : listings.isEmpty
+          ? const Center(child: Text('No listings found.'))
+          : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     itemCount: listings.length,
                     itemBuilder: (context, index) {
