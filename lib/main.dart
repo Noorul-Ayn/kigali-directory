@@ -24,46 +24,46 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ListingsProvider()),
       ],
-      return MaterialApp(
-  title: 'Kigali Directory',
-  debugShowCheckedModeBanner: false,
-  theme: ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color(0xFF00A86B),
-      primary: const Color(0xFF00A86B),
-    ),
-    useMaterial3: true,
-    fontFamily: 'Roboto',
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF00A86B),
-      foregroundColor: Colors.white,
-      elevation: 0,
-    ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Color(0xFF00A86B),
-      foregroundColor: Colors.white,
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF00A86B),
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+      child: MaterialApp(
+        title: 'Kigali Directory',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF00A86B),
+            primary: const Color(0xFF00A86B),
+          ),
+          useMaterial3: true,
+          fontFamily: 'Roboto',
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xFF00A86B),
+            foregroundColor: Colors.white,
+            elevation: 0,
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color(0xFF00A86B),
+            foregroundColor: Colors.white,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF00A86B),
+              foregroundColor: Colors.white,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+            ),
+          ),
+          inputDecorationTheme: const InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(color: Color(0xFF00A86B), width: 2),
+            ),
+          ),
         ),
+        home: const AuthGate(),
       ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        borderSide: BorderSide(color: Color(0xFF00A86B), width: 2),
-      ),
-    ),
-  ),
-  home: const AuthGate(),
-);
     );
   }
 }
@@ -73,11 +73,16 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AuthProvider>();
-    final user = authProvider.user;
+    final auth = context.watch<AuthProvider>();
 
-    if (user == null) return const LoginScreen();
-    if (!user.emailVerified) return const VerifyEmailScreen();
+    if (auth.user == null) {
+      return const LoginScreen();
+    }
+
+    if (!auth.isEmailVerified) {
+      return const VerifyEmailScreen();
+    }
+
     return const HomeScreen();
   }
 }
